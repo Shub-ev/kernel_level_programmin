@@ -1,5 +1,6 @@
 # Notes: Bootloader That Prints a String Using BIOS
 
+
 # Overview
 
 This program is a boot sector.
@@ -65,7 +66,7 @@ It tells NASM:
 Assume this program starts at address 0x7C00
 ```
 
-This is important because BIOS loads the boot sector at `0x7C00`.
+This is important because BIOS loads the boot sector into memory at 0x7C00.
 
 ---
 
@@ -137,7 +138,8 @@ Therefore NASM must generate 16-bit machine code.
 main:
 ```
 
-This is the first code executed after BIOS jumps to the boot sector.
+After BIOS loads your boot sector into memory at 0x7C00 and verifies the boot signature (55 AA), it transfers CPU execution to your bootloader.
+The first instruction the CPU executes from your bootloader is the code at the label `main`.
 
 ---
 
@@ -152,8 +154,13 @@ MOV ss, ax
 
 ## What Are Segment Registers?
 
-In Real Mode, memory addresses are formed using:
+# Segment Registers
 
+The Intel 8086 processor was originally designed with 16-bit registers. A 16-bit register can represent values from:
+
+0x0000 to 0xFFFF
+
+In Real Mode, memory addresses are formed using:
 ```text
 Segment : Offset
 ```
